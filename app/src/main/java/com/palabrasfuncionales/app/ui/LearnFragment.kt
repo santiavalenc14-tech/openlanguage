@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -46,7 +45,7 @@ class LearnFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         b.lessons.adapter = adapter
         val langs = Languages.dictionary
-        b.language.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, langs.map { it.label }))
+        b.language.setAdapter(DropdownAdapter(requireContext(), langs.map { it.label }))
         b.language.setOnItemClickListener { _, _, pos, _ -> selectLanguage(langs[pos].code) }
 
         val tips = resources.getStringArray(R.array.learning_tips)

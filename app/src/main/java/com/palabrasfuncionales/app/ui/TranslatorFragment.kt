@@ -9,7 +9,6 @@ import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
@@ -63,8 +62,8 @@ class TranslatorFragment : Fragment() {
         target = Languages.byCode(prefs.getString(KEY_DST, "en")) ?: Languages.english
 
         val detect = getString(R.string.detect_language)
-        b.source.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, sources.map { it?.label ?: detect }))
-        b.target.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, targets.map { it.label }))
+        b.source.setAdapter(DropdownAdapter(requireContext(), sources.map { it?.label ?: detect }))
+        b.target.setAdapter(DropdownAdapter(requireContext(), targets.map { it.label }))
         b.source.setOnItemClickListener { _, _, pos, _ -> source = sources[pos]; saveLangs(); scheduleLive(0) }
         b.target.setOnItemClickListener { _, _, pos, _ -> target = targets[pos]; saveLangs(); scheduleLive(0) }
         showLangs()

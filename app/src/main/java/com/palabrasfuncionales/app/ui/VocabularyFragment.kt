@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -59,7 +58,7 @@ class VocabularyFragment : Fragment() {
         speaker = Speaker(requireContext())
         b.list.adapter = adapter
         val langs = Languages.dictionary
-        b.language.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, langs.map { it.label }))
+        b.language.setAdapter(DropdownAdapter(requireContext(), langs.map { it.label }))
         b.language.setOnItemClickListener { _, _, pos, _ -> selectLanguage(langs[pos]) }
         b.query.doAfterTextChanged { refresh() }
         b.practice.setOnClickListener { practice() }
@@ -69,7 +68,7 @@ class VocabularyFragment : Fragment() {
             items = VocabRepository.items(requireContext())
             categories = VocabRepository.categories(items)
             if (_b == null) return@launch
-            b.category.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, categories))
+            b.category.setAdapter(DropdownAdapter(requireContext(), categories))
             b.category.setOnItemClickListener { _, _, pos, _ -> selectCategory(categories[pos]) }
             val savedCode = prefs().getString(KEY_LANG, null)
             selectLanguage(Languages.byCode(savedCode)?.takeIf { it in langs } ?: langs.first())
