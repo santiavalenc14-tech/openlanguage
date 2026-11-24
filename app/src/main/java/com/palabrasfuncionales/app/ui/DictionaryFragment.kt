@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -37,7 +36,7 @@ class DictionaryFragment : Fragment() {
         b.list.setHasFixedSize(true)
 
         val langs = Languages.dictionary
-        b.language.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, langs.map { it.label }))
+        b.language.setAdapter(DropdownAdapter(requireContext(), langs.map { it.label }))
         b.language.setOnItemClickListener { _, _, pos, _ -> selectLanguage(langs[pos].code) }
 
         b.query.doAfterTextChanged { refresh() }
@@ -66,7 +65,7 @@ class DictionaryFragment : Fragment() {
     private fun setupSections(p: LanguagePack) {
         val all = getString(R.string.all_sections)
         val items = listOf(all) + p.sections
-        b.section.setAdapter(ArrayAdapter(requireContext(), R.layout.item_dropdown, items))
+        b.section.setAdapter(DropdownAdapter(requireContext(), items))
         b.section.setText(all, false)
         b.section.setOnItemClickListener { _, _, pos, _ ->
             section = if (pos == 0) null else items[pos]
